@@ -1,0 +1,13 @@
+venv/
+__pycache__/
+*.pyc
+.DS_Store
+.env
+.venv/
+.idea/
+.claude/
+*.log
+data/wc2026.db
+models/trained/*.joblib
+models/trained/*.json
+config.json

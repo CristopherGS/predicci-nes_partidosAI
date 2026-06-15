@@ -1,0 +1,47 @@
+/* Estilos custom encima de Tailwind */
+.flag {
+  display: inline-block;
+  width: 28px; height: 20px;
+  border-radius: 3px;
+  background: #cbd5e1;
+  font-size: 11px;
+  font-weight: 700;
+  color: #1e293b;
+  text-align: center;
+  line-height: 20px;
+  letter-spacing: 0.5px;
+}
+.prob-bar {
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #e2e8f0;
+  display: flex;
+}
+.prob-bar > div { height: 100%; }
+.prob-home { background: #16a34a; }
+.prob-draw { background: #94a3b8; }
+.prob-away { background: #f97316; }
+
+.score-matrix {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  font-size: 10px;
+}
+.score-cell {
+  background: #f1f5f9;
+  padding: 4px 2px;
+  text-align: center;
+  border-radius: 2px;
+}
+
+.tab.active { color: #c2410c; border-color: #c2410c; }
+
+.match-card {
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.match-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px -8px rgba(0,0,0,0.15);
+}

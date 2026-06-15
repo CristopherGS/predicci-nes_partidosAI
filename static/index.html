@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<title>WC 2026 — Predicciones</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="/static/app.css">
+<script>
+  tailwind.config = {
+    theme: { extend: { colors: { brand: { 50:'#fff7ed',500:'#f97316',600:'#ea580c',700:'#c2410c' }}}}
+  }
+</script>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen">
+  <header class="bg-gradient-to-r from-brand-600 via-brand-500 to-amber-400 text-white shadow-md">
+    <div class="max-w-7xl mx-auto px-6 py-5 flex items-center gap-4">
+      <span class="text-3xl">⚽</span>
+      <div class="flex-1">
+        <h1 class="text-2xl font-bold tracking-tight">Mundial 2026 — Motor de Predicciones</h1>
+        <p class="text-sm opacity-90">Elo + Poisson + XGBoost · Análisis cuantitativo de los 104 partidos</p>
+      </div>
+      <div id="train-status" title="Estado del auto-entrenador" class="text-xs bg-white/15 border border-white/30 px-3 py-2 rounded-lg flex items-center gap-2">
+        <span id="train-dot" class="w-2 h-2 rounded-full bg-emerald-400"></span>
+        <span id="train-text">auto-train: ok</span>
+      </div>
+      <button id="btn-train" class="bg-white/15 hover:bg-white/25 border border-white/30 text-white text-sm font-semibold px-3 py-2 rounded-lg">🧠 Entrenar ahora</button>
+      <button id="btn-refresh" class="bg-white/15 hover:bg-white/25 border border-white/30 text-white text-sm font-semibold px-3 py-2 rounded-lg">⟳ Scrape Wikipedia</button>
+      <button id="btn-predict-all" class="bg-white text-brand-700 hover:bg-amber-50 text-sm font-semibold px-3 py-2 rounded-lg shadow">⚡ Predecir todos</button>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 py-6 space-y-6">
+    <!-- KPIs -->
+    <section id="kpis" class="grid grid-cols-2 md:grid-cols-5 gap-3">
+      <div class="bg-white rounded-xl shadow-sm p-4">
+        <div class="text-xs uppercase text-slate-500 font-semibold">Modelo</div>
+        <div id="kpi-model" class="text-lg font-bold mt-1">—</div>
+      </div>
+      <div class="bg-white rounded-xl shadow-sm p-4">
+        <div class="text-xs uppercase text-slate-500 font-semibold">Acc. 1X2</div>
+        <div id="kpi-acc" class="text-lg font-bold mt-1">—</div>
+      </div>
+      <div class="bg-white rounded-xl shadow-sm p-4">
+        <div class="text-xs uppercase text-slate-500 font-semibold">Brier</div>
+        <div id="kpi-brier" class="text-lg font-bold mt-1">—</div>
+      </div>
+      <div class="bg-white rounded-xl shadow-sm p-4">
+        <div class="text-xs uppercase text-slate-500 font-semibold">Jugados</div>
+        <div id="kpi-played" class="text-lg font-bold mt-1">—</div>
+      </div>
+      <div class="bg-white rounded-xl shadow-sm p-4">
+        <div class="text-xs uppercase text-slate-500 font-semibold">Próximos 24h</div>
+        <div id="kpi-next" class="text-lg font-bold mt-1">—</div>
+      </div>
+    </section>
+
+    <!-- Tabs -->
+    <nav class="flex border-b border-slate-200 gap-1" id="tabs">
+      <button class="tab px-4 py-2 font-medium border-b-2 border-brand-600 text-brand-700" data-tab="quiniela">🎯 Modo Quiniela</button>
+      <button class="tab px-4 py-2 font-medium border-b-2 border-transparent text-slate-500 hover:text-slate-800 relative" data-tab="live">
+        <span class="inline-block w-2 h-2 bg-rose-500 rounded-full mr-1 animate-pulse"></span>EN VIVO
+        <span id="live-badge" class="hidden absolute -top-1 -right-1 bg-rose-500 text-white text-[10px] rounded-full px-1.5 font-bold"></span>
+      </button>
+      <button class="tab px-4 py-2 font-medium border-b-2 border-transparent text-slate-500 hover:text-slate-800" data-tab="upcoming">Próximos partidos</button>
+      <button class="tab px-4 py-2 font-medium border-b-2 border-transparent text-slate-500 hover:text-slate-800" data-tab="played">Jugados</button>
+      <button class="tab px-4 py-2 font-medium border-b-2 border-transparent text-slate-500 hover:text-slate-800" data-tab="groups">Grupos</button>
+      <button class="tab px-4 py-2 font-medium border-b-2 border-transparent text-slate-500 hover:text-slate-800" data-tab="teams">Selecciones</button>
+      <button class="tab px-4 py-2 font-medium border-b-2 border-transparent text-slate-500 hover:text-slate-800" data-tab="accuracy">Aciertos</button>
+    </nav>
+
+    <section id="view" class="space-y-4"></section>
+  </main>
+
+  <!-- Modal de detalle de partido -->
+  <div id="modal" class="hidden fixed inset-0 bg-black/60 z-40 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <footer class="text-center text-xs text-slate-500 py-6">
+    Modelo local · Datos de fixtures actualizables vía <code class="bg-slate-200 px-1 rounded">/api/refresh</code>
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
