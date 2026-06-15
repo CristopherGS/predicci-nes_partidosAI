@@ -114,7 +114,7 @@ class PiRatings:
         # Ajustar [a, b] por MLE con regresión logística multinomial mínima
         from sklearn.linear_model import LogisticRegression
         X = gd_arr.reshape(-1, 1)
-        lr = LogisticRegression(multi_class="multinomial", C=1.0, max_iter=500)
+        lr = LogisticRegression(C=1.0, max_iter=500)
         try:
             lr.fit(X, oc_arr)
             # Guardamos coef y intercept para reusar sin sklearn al predecir

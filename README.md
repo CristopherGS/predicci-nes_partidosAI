@@ -9,7 +9,7 @@ App web local que predice los 104 partidos del Mundial 2026 con un modelo
 ```bash
 cd "prediccion Python"
 source venv/bin/activate
-python train.py                # solo la primera vez (o si actualizás datos)
+python train.py                # opcional: solo si querés regenerar modelos
 uvicorn app:app --host 127.0.0.1 --port 8765
 ```
 
@@ -36,6 +36,7 @@ a ~58–65% real conforme se carguen más partidos.
 app.py                   FastAPI backend (REST)
 train.py                 entrena el modelo, persiste a models/trained/
 data/
+  wc2026.db              SQLite generado con equipos, partidos y predicciones
   seed_teams.py          48 selecciones del Mundial + 22 históricas
   seed_historical.py     145 partidos internacionales 2022-2026
   seed_wc2026.py         grupos + 72 partidos fase grupos + knockout placeholder
@@ -43,6 +44,7 @@ data/
   loader.py              bootstrap idempotente de la DB
   scraper.py             pull de resultados desde Wikipedia
 models/
+  trained/               modelos entrenados listos para correr local
   elo.py                 Elo dinámico (estilo eloratings.net)
   poisson.py             Poisson bivariado (matriz score, BTTS, O2.5)
   features.py            feature engineering (16 features)
@@ -50,6 +52,18 @@ models/
 static/
   index.html, app.js, app.css   Frontend vanilla + Tailwind por CDN
 ```
+
+## Artefactos incluidos
+
+El repositorio incluye los datos generados necesarios para correr sin reentrenar:
+
+- `data/wc2026.db`: base SQLite con equipos, histórico, fixtures WC2026,
+  predicciones cacheadas y snapshots live generados localmente.
+- `models/trained/*.joblib`: clasificador 1X2 y regresores de goles entrenados.
+- `models/trained/*.json`: metadata, Dixon-Coles y Pi-ratings entrenados.
+
+Si borrás esos archivos, la app sigue arrancando con los seeds y puede
+regenerarlos ejecutando `python train.py`.
 
 ## API REST
 

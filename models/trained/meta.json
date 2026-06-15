@@ -1,0 +1,57 @@
+{
+  "trained_at": "2026-06-15T20:44:20+00:00",
+  "version": "meta-v3 (ML + Dixon-Coles + Pi-ratings + Elo-Poisson)",
+  "features": [
+    "elo_h",
+    "elo_a",
+    "elo_diff",
+    "xg_for_h",
+    "xg_against_h",
+    "xg_for_a",
+    "xg_against_a",
+    "form_h",
+    "form_a",
+    "form_h_w",
+    "form_a_w",
+    "avg_goals_h",
+    "avg_goals_a",
+    "avg_conc_h",
+    "avg_conc_a",
+    "rest_days_h",
+    "rest_days_a",
+    "h2h_diff",
+    "neutral",
+    "is_wc",
+    "confed_match"
+  ],
+  "n_train": 2116,
+  "n_real": 145,
+  "metrics": {
+    "accuracy_1x2": 0.7586206896551724,
+    "log_loss": 0.6185616901628064,
+    "brier": 0.12014683830573421,
+    "mae_home_goals": 1.040357270999533,
+    "mae_away_goals": 0.686499820003543,
+    "test_size": 29,
+    "by_confidence": {
+      "baja": {
+        "n": 2,
+        "accuracy": 0.5
+      },
+      "media": {
+        "n": 9,
+        "accuracy": 0.6666666666666666
+      },
+      "alta": {
+        "n": 18,
+        "accuracy": 0.8333333333333334
+      }
+    }
+  },
+  "components": [
+    "HistGradientBoosting + RandomForest + LogReg (calibrado isot\u00f3nico)",
+    "Dixon-Coles (1997) \u2014 f\u00f3rmula bookmaker est\u00e1ndar, MLE con weighting temporal",
+    "Pi-ratings (Constantinou & Fenton 2013) \u2014 dual home/away rating",
+    "Elo (eloratings.net style) + Poisson baseline"
+  ]
+}

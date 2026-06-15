@@ -90,23 +90,18 @@ async def _scheduler_loop():
     global _stop_flag
     log.info("Loop de auto-entrenamiento iniciado (cada %ds)",
              STATE["scheduled_every_s"])
-    # Pequeño delay inicial para no chocar con el startup
-    await asyncio.sleep(20)
+    elapsed = 0
     while not _stop_flag:
         try:
-            # Si hay datos nuevos sin entrenar, dispara ya
+            # Si hay datos nuevos sin entrenar, dispara ya.
             if STATE["dirty"]:
                 trigger_train_async("data-changed")
-            else:
+                elapsed = 0
+            elif elapsed >= STATE["scheduled_every_s"]:
                 trigger_train_async("schedule")
-            # Espera el próximo ciclo
-            elapsed = 0
-            while elapsed < STATE["scheduled_every_s"] and not _stop_flag:
-                await asyncio.sleep(10)
-                elapsed += 10
-                # Re-chequeo intermedio: si dirty se prende, no espero más
-                if STATE["dirty"] and not STATE["running"]:
-                    break
+                elapsed = 0
+            await asyncio.sleep(10)
+            elapsed += 10
         except Exception as e:
             log.exception("Error en scheduler loop: %s", e)
             await asyncio.sleep(60)

@@ -7,7 +7,4 @@ __pycache__/
 .idea/
 .claude/
 *.log
-data/wc2026.db
-models/trained/*.joblib
-models/trained/*.json
 config.json

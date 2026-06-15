@@ -236,7 +236,7 @@ def _build_classifier():
     )
     lr = Pipeline([
         ("scaler", StandardScaler()),
-        ("clf", LogisticRegression(C=0.6, max_iter=2000, multi_class="multinomial",
+        ("clf", LogisticRegression(C=0.6, max_iter=2000,
                                    class_weight="balanced", random_state=42)),
     ])
     voting = VotingClassifier(
